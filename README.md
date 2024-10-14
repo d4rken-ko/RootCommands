@@ -1,28 +1,28 @@
-# No longer in active development
+# 더 이상 활발하게 개발되지 않음
 
-**RootCommands is no longer in active development. If you like to take over the maintaining, simply fork it and implement fixes. I will only do basic maintenance like merging pull requests and releasing new versions.**
+**RootCommands는 더 이상 활발하게 개발되지 않습니다. 유지 관리를 맡고 싶으시다면 간단히 포크해서 수정 사항을 구현하세요. 저는 풀 리퀘스트와 릴리스 병합과 같은 기본적인 유지 관리만 할 것입니다.**
 
-# RootCommands
+# 루트 명령
 
-This is a library to simplify the usage of root commands on the Android OS. It is a Java wrapper around native binaries shipped with every Android OS, but can also be used to package and execute your own native binaries.
+이는 Android OS에서 루트 명령의 사용을 단순화하는 라이브러리입니다. 네이티브를 둘러싼 Java 래퍼입니다. 모든 Android OS와 함께 제공되는 바이너리이지만, 사용자 고유의 네이티브 바이너리를 패키징하고 실행하는 데에도 사용할 수 있습니다.
 
-## Use library as Gradle dependency (Android library project)
+## 라이브러리를 Gradle 종속성으로 사용(Android 라이브러리 프로젝트)
 
-1. Copy ``libraries/RootCommands`` to your project and include it in ``settings.gradle`` (see https://github.com/dschuermann/root-commands/blob/master/settings.gradle)
-2. Add dependency ``compile project(':libraries:RootCommands')`` to your project ``build.gradle``. (see https://github.com/dschuermann/root-commands/blob/master/ExampleApp/build.gradle)
+1. ``libraries/RootCommands``를 프로젝트에 복사하고 ``settings.gradle``에 포함합니다(https://github.com/dschuermann/root-commands/blob/master/settings.gradle 참조)
+2. 프로젝트 ``build.gradle``에 종속성 ``compile project(':libraries:RootCommands')``를 추가합니다. (https://github.com/dschuermann/root-commands/blob/master/ExampleApp/build.gradle 참조)
 
-# Examples
+# 예시
 
-To see RootCommands in action, compile the ``RootCommands Demo`` project and observe the logcat output.
+RootCommands가 실제로 어떻게 작동하는지 보려면 ``RootCommands Demo`` 프로젝트를 컴파일하고 logcat 출력을 살펴보세요.
 
-## Debug Mode
+## 디버그 모드
 
-You can enable debug logging in RootCommands by the following line:
+다음 줄을 사용하여 RootCommands에서 디버그 로깅을 활성화할 수 있습니다.
 ```java
 RootCommands.DEBUG = true;
 ```
 
-## Root Access check
+## 루트 접근 확인
 
 This tries to find the su binary, opens a root shell and checks for root uid.
 
@@ -32,15 +32,15 @@ if (RootCommands.rootAccessGiven()) {
 }
 ```
 
-## Simple Commands
+## 간단한 명령
 
-You can instantiate SimpleCommands with the shell commands you want to execute. This is a very basic approach of executing something on a shell.
+실행하려는 셸 명령으로 SimpleCommands를 인스턴스화할 수 있습니다. 이는 셸에서 무언가를 실행하는 매우 기본적인 접근 방식입니다.
 
 ```java
-// start root shell
+// 루트 셸 시작
 Shell shell = Shell.startRootShell();
 
-// simple commands
+// 간단한 명령
 SimpleCommand command0 = new SimpleCommand("echo this is a command",
         "echo this is another command");
 SimpleCommand command1 = new SimpleCommand("toolbox ls");
@@ -53,13 +53,13 @@ shell.add(command2).waitForFinish();
 Log.d(TAG, "Output of command2: " + command2.getOutput());
 Log.d(TAG, "Exit code of command2: " + command2.getExitCode());
 
-// close root shell
+// ROOT 셸 닫기
 shell.close();
 ```
 
-## Define your own commands
+## 자신의 명령을 정의하세요
 
-For more complex commands you can extend the Command class to parse the output while the shell executes the command.
+더 복잡한 명령의 경우 셸이 명령을 실행하는 동안 출력을 구문 분석하도록 Command 클래스를 확장할 수 있습니다.
 
 ```java
 private class MyCommand extends Command {
@@ -90,24 +90,24 @@ private class MyCommand extends Command {
 ```
 
 ```java
-// start root shell
+// ROOT 셸 시작
 Shell shell = Shell.startRootShell();
 
-// custom command classes:
+// 사용자 정의 명령 클래스:
 MyCommand myCommand = new MyCommand();
 shell.add(myCommand).waitForFinish();
 
 Log.d(TAG, "myCommand.isFound(): " + myCommand.isFound());
 
-// close root shell
+// ROOT 셸을 닫습니다
 shell.close();
 ```
 
-## Toolbox
+## 도구 상자
 
-Toolbox is similar to busybox, but normally shipped on every Android OS. You can find toolbox commands on https://github.com/CyanogenMod/android_system_core/tree/ics/toolbox . This means that these commands are designed to work on every Android OS, with a _working_ toolbox binary on it. They don't require busybox!
+Toolbox는 BusyBox와 비슷하지만 일반적으로 모든 Android OS에 탑재되어 있습니다. 도구 상자 명령은 다음에서 찾을 수 있습니다 https://github.com/CyanogenMod/android_system_core/tree/ics/toolbox . 즉, 이러한 명령은 모든 Android OS에서 작동하도록 설계되었습니다. _작동하는_ 도구상자 바이너리가 있습니다. BusyBox가 필요하지 않습니다!
 
-The Toolbox class is based on this toolbox executeable and provides some nice commands as java methods like:
+Toolbox 클래스는 이 도구 상자 실행 파일을 기반으로 하며 다음과 같은 Java 메서드로 몇 가지 유용한 명령을 제공합니다.
 
 * isRootAccessGiven()
 * killAll(String processName)
@@ -138,58 +138,58 @@ Log.d(TAG, tb.getFilePermissions("/system/etc/hosts"));
 shell.close();
 ```
 
-## Executables
+## 실행 파일
 
-Android APKs are normally not designed to include native executables. But they are designed to include native libraries for different architectures, which are deployed when the app is installed on the device. Androids mechanism will deploy the proper native library based on the architecture of the device.
-This method only deploys files that are named like ``lib*.so``, which are included from the libs folder of your project.
+Android APK는 일반적으로 네이티브 실행 파일을 포함하도록 설계되지 않았습니다. 그러나 이들은 다양한 아키텍처에 대한 네이티브 라이브러리를 포함하도록 설계되었습니다. 앱이 장치에 설치될 때 배포됩니다. 안드로이드 메커니즘은 기기의 아키텍처에 따라 적절한 네이티브 라이브러리를 배포합니다.
+이 방법은 프로젝트의 libs 폴더에 포함된 ``lib*.so``와 같은 이름의 파일만 배포합니다.
 
-We are missusing Androids library method to deploy our native executables, by renaming them after compilation, so that they are included in the apk and deployed based on the architecture.
+우리는 네이티브 실행 파일을 배포하기 위한 Android 라이브러리 방법이 부족합니다. 컴파일 후 이름을 바꾸면, APK에 포함되고 아키텍처에 따라 배포됩니다.
 
-Note: Permission and owner of deployed files: ``-rwxr-xr-x system   system      38092 2012-09-24 19:51 libhello_world_exec.so``
+참고: 배포된 파일의 권한 및 소유자: ``-rwxr-xr-x system   system      38092 2012-09-24 19:51 libhello_world_exec.so``
 
-1. Put the sources of the native executables into the jni folder as seen in https://github.com/dschuermann/root-commands/tree/master/ExampleApp/jni
-2. Write your own Android.mk and Application.mk
-3. To automate the renaming process I propose a Gradle task: https://github.com/dschuermann/root-commands/blob/master/ExampleApp/build.gradle . This will rename the files from ``*`` to ``lib*_bin.so``.
-4. Execute ``ndk-build`` to build executables
-5. Execute ``gradle renameExecutables``
-6. Execute ``gradle build``
+1. 네이티브 실행 파일의 소스를 jni 폴더에 넣으세요 https://github.com/dschuermann/root-commands/tree/master/ExampleApp/jni
+2. Android.mk와 Application.mk를 직접 작성하세요
+3. 이름 변경 프로세스를 자동화하기 위해 Gradle 작업을 제안합니다 https://github.com/dschuermann/root-commands/blob/master/ExampleApp/build.gradle. 이렇게 하면 파일 이름이 ``*``에서 ``lib*_bin.so``로 변경됩니다.
+4. ``ndk-build``를 실행하여 실행 파일을 빌드합니다.
+5. ``gradle renameExecutables``를 실행합니다.
+6. ``gradle build``를 실행합니다.
 
-Now that your executables are bundled, you can use our ``SimpleExecutableCommand`` like in the following example:
+이제 실행 파일이 묶여 있으므로 다음 예와 같이 ``SimpleExecutableCommand``를 사용할 수 있습니다.
 
 ```java
 SimpleExecutableCommand execCommand = new SimpleExecutableCommand(this, "hello_world", "");
 
-// started as normal shell without root, but you can also start your executables on a root
-// shell if you need more privileges!
+// ROOT 없이 일반 셸로 시작하지만 ROOT에서 실행 파일을 시작할 수도 있습니다.
+// 더 많은 권한이 필요하면 셸을 사용하세요!
 Shell shell = Shell.startShell();
 
 shell.add(execCommand).waitForFinish();
 
 Toolbox tb = new Toolbox(shell);
 if (tb.killAllBinary("hello_world")) {
-    Log.d(TAG, "Hello World daemon killed!");
+    Log.d(TAG, "Hello World 데몬이 죽었습니다!");
 } else {
-    Log.d(TAG, "Killing failed!");
+    Log.d(TAG, "죽이는 데 실패했습니다!");
 }
 
 shell.close();
 ```
 
-# Contribute
+# 기여하다
 
-Fork RootCommands and do a Pull Request. I will merge your changes back into the main project.
+RootCommands를 포크하고 풀 리퀘스트를 하세요. 저는 여러분의 변경 사항을 메인 프로젝트에 다시 병합할 것입니다.
 
-# Other Documentation
+# 기타 문서
 * http://su.chainfire.eu/
 
-# Other Root libraries
+# 기타 루트 라이브러리
 * https://github.com/Chainfire/libsuperuser
 * http://code.google.com/p/roottools/
 * https://github.com/SpazeDog/rootfw
 
-# Authors
-RootCommands is based on several other open source projects, thus several authors are involved:
+# 저자
+RootCommands는 다른 여러 오픈 소스 프로젝트를 기반으로 하며 여기에는 여러 작성자가 참여했습니다.
 
-* Dominik Schürmann (RootCommands)
-* Michael Elsdörfer (Android Autostarts)
-* Stephen Erickson, Chris Ravenscroft, Adam Shanks, Jeremy Lakeman (RootTools)
+* Dominik Schürmann(루트 명령)
+* Michael Elsdörfer(Android 자동 시작)
+* Stephen Erickson, Chris Ravenscroft, Adam Shanks, Jeremy Lakeman(RootTools)
